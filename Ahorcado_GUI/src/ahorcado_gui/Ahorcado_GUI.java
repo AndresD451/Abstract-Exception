@@ -16,7 +16,7 @@ public class Ahorcado_GUI extends JFrame {
     private JuegoAhorcadoBase juegoActual;
     private AdminPalabrasSecretas admin;
 
-    private JLabel lblPalabra, lblIntentos, lblMensajes;
+    private JLabel lblPalabra, lblIntentos;
     private JTextArea txtFigura;
     private JTextField txtEntrada;
     private JButton btnAdivinar, btnModoFijo, btnModoAzar, bthAgregarPalabra;
@@ -54,7 +54,7 @@ public class Ahorcado_GUI extends JFrame {
 
         JPanel pnlInferior = new JPanel(new GridLayout(2, 1));
         lblIntentos = new JLabel("Intentos restantes: 6");
-        JButton btnAgregarPalabra = new JButton("Añadir Palabra al Diccionario");
+        bthAgregarPalabra = new JButton("Añadir Palabra");
         
         JPanel pnlInput = new JPanel();
         txtEntrada = new JTextField(2);
@@ -66,30 +66,39 @@ public class Ahorcado_GUI extends JFrame {
 
         pnlInferior.add(lblIntentos);
         pnlInferior.add(pnlInput);
-        pnlInferior.add(btnAgregarPalabra);
+        pnlInferior.add(bthAgregarPalabra);
         
         add(pnlInferior, BorderLayout.SOUTH);
 
         btnModoFijo.addActionListener(e -> iniciarFijo());
         btnModoAzar.addActionListener(e -> iniciarAzar());
         btnAdivinar.addActionListener(e -> procesarLetra());
-        btnAgregarPalabra.addActionListener(e -> agregarPalabra());
+        bthAgregarPalabra.addActionListener(e -> agregarPalabra());
     }
 
-    private void agregarPalabra(){
+    private void agregarPalabra() {
         try {
-                String nuevaPalabra = JOptionPane.showInputDialog(this, 
-                        "Escriba la nueva palabra secreta:", 
-                        "Configuración de Diccionario", 
-                        JOptionPane.QUESTION_MESSAGE);
+            String nuevaPalabra = JOptionPane.showInputDialog(this, 
+                    "Escriba la nueva palabra secreta:", 
+                    "Configuración de Diccionario", 
+                    JOptionPane.QUESTION_MESSAGE);
 
-                if (nuevaPalabra != null && !nuevaPalabra.trim().isEmpty()) {
-                    admin.agregarPalabra(nuevaPalabra);
+            if (nuevaPalabra != null && !nuevaPalabra.trim().isEmpty()) {
+
+                boolean exito = admin.agregarPalabra(nuevaPalabra);
+
+                if (exito) {
                     JOptionPane.showMessageDialog(this, "¡Palabra agregada con éxito!");
+                } else {
+                    JOptionPane.showMessageDialog(this, 
+                        "La palabra ya existe.", 
+                        "Error", 
+                        JOptionPane.WARNING_MESSAGE);
                 }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
             }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+        }
     }
     
     private void iniciarFijo() {
@@ -97,14 +106,12 @@ public class Ahorcado_GUI extends JFrame {
         if (p != null && !p.isEmpty()) {
             juegoActual = new JuegoAhorcadoFijo(p);
             actualizarPantalla();
-            lblMensajes.setText("Modo Fijo iniciado.");
         }
     }
 
     private void iniciarAzar() {
         juegoActual = new JuegoAhorcadoAzar(admin);
         actualizarPantalla();
-        lblMensajes.setText("Modo Azar iniciado.");
     }
 
     private void procesarLetra() {

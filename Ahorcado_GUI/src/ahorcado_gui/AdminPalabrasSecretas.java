@@ -26,15 +26,16 @@ public class AdminPalabrasSecretas {
         agregarPalabra("CAMARA");
     }
     
-    public void agregarPalabra(String palabra) {
-        if (palabra == null) return;
+    public boolean agregarPalabra(String palabra) { 
+        if (palabra == null) return false;
 
         String limpia = palabra.trim().toUpperCase();
 
         if (!limpia.isEmpty() && !palabras.contains(limpia)) {
             palabras.add(limpia);
-            System.out.println("Palabra añadida: " + limpia);
+            return true;
         }
+        return false; 
     }
     
     public String obtenerPalabraAzar(){
