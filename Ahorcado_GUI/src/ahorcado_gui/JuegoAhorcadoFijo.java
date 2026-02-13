@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author user
  */
 public class JuegoAhorcadoFijo extends JuegoAhorcadoBase {
-    JuegoAhorcadoFijo (String palabraSecreta ){
+   public JuegoAhorcadoFijo (String palabraSecreta ){
         super();
         this.palabraSecreta = palabraSecreta.toLowerCase();
         inicializarPalabraSecreta();
@@ -39,6 +39,15 @@ public boolean verificarLetra (char letra){
     return palabraSecreta.indexOf(letra) >=0;
     
 }
+public void jugar(){}
+
+
+
+
+
+
+
+
 
 public boolean hasGanado(){
     return palabraActual.equals(palabraSecreta);
