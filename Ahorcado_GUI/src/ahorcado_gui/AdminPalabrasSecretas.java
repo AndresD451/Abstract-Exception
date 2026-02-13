@@ -16,21 +16,23 @@ public class AdminPalabrasSecretas {
     
     public AdminPalabrasSecretas(){
         this.palabras = new ArrayList<>();
+        agregarPalabra("JAVA");
     }
     
-    public void agregarPalabra(String palabra){
-        String palabraLimpia = palabra.trim().toUpperCase();
-        
-        if (!palabraLimpia.isEmpty() && !palabra.contains(palabraLimpia)){
-            palabras.add(palabraLimpia);
-            System.out.println("Palabra agregada: " + palabraLimpia);
-        }else{
-            System.err.println("La palabra '" + palabraLimpia +"' ya existe.");
+    public void agregarPalabra(String palabra) {
+        if (palabra == null) return;
+
+        String limpia = palabra.trim().toUpperCase();
+
+        // Validación de integridad: no vacía y no duplicada
+        if (!limpia.isEmpty() && !palabras.contains(limpia)) {
+            palabras.add(limpia);
+            System.out.println("Palabra añadida: " + limpia); // Para control en consola
         }
     }
     
     public String obtenerPalabraAzar(){
-        if (palabras.isEmpty()){
+        if (palabras == null || palabras.isEmpty()){
             return "AHORCADO";
         }
         

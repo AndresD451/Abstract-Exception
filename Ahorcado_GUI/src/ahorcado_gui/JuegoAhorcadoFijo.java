@@ -14,7 +14,7 @@ public class JuegoAhorcadoFijo extends JuegoAhorcadoBase {
     
     JuegoAhorcadoFijo (String palabraSecreta ){
         super();
-        this.palabraSecreta = palabraSecreta.toLowerCase();
+        this.palabraSecreta = palabraSecreta.toUpperCase();
         inicializarPalabraSecreta();
     }
         
@@ -39,9 +39,8 @@ public class JuegoAhorcadoFijo extends JuegoAhorcadoBase {
 
     @Override
     public boolean verificarLetra (char letra){
-        letra = Character.toUpperCase(letra);
-        return palabraSecreta.indexOf(letra) >=0;
-
+        char letraUpper = Character.toUpperCase(letra);
+        return palabraSecreta.indexOf(letraUpper) >= 0; 
     }
     
     @Override

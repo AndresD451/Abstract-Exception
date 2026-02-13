@@ -51,9 +51,12 @@ public abstract class JuegoAhorcadoBase implements JuegoAhorcado {
     public void procesarEntrada(char letra){
         letra = Character.toUpperCase(letra);
         
-        if (letrasUsadas.contains(letra)){
-            System.err.println("Ya intentaste con la letra '" + letra + "'. Intente con otra letra.");
-            return;
+        if (esLetraRepetida(letra)){
+            try {            
+                throw new EntradaInvalidaException("La letra '" + letra + "' ya fue utilizada.");
+            } catch (EntradaInvalidaException ex) {
+                System.getLogger(JuegoAhorcadoBase.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
         }
         
         letrasUsadas.add(letra);
@@ -65,7 +68,7 @@ public abstract class JuegoAhorcadoBase implements JuegoAhorcado {
         }
     }
     
-    protected boolean esLetraRpetida(char letra){
-        return letrasUsadas.contains(Character.toLowerCase(letra));
+    protected boolean esLetraRepetida(char letra){
+        return letrasUsadas.contains(Character.toUpperCase(letra));
     }
 }
