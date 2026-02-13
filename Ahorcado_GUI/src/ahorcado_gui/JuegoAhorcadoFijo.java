@@ -11,47 +11,47 @@ import java.util.ArrayList;
  * @author user
  */
 public class JuegoAhorcadoFijo extends JuegoAhorcadoBase {
-   public JuegoAhorcadoFijo (String palabraSecreta ){
+    
+    JuegoAhorcadoFijo (String palabraSecreta ){
         super();
         this.palabraSecreta = palabraSecreta.toLowerCase();
         inicializarPalabraSecreta();
     }
         
-        public void inicializarPalabraSecreta(){
-            iniciarGuiones();
-        }
-        
-public void actualizarPalabraActual(char letra){
-letra = Character.toUpperCase(letra);
-char [] caracteres = palabraActual.toCharArray();
-
-for (int i = 0;  i < palabraSecreta.length(); i++){
-    if (palabraSecreta.charAt(i) == letra){
-        caracteres[i] = letra;
-        
+    @Override
+    public void inicializarPalabraSecreta(){
+        iniciarGuiones();
     }
-    this.palabraActual = new String (caracteres); 
-}
-}
+        
+    @Override
+    public void actualizarPalabraActual(char letra){
+        letra = Character.toUpperCase(letra);
+        char [] caracteres = palabraActual.toCharArray();
 
-public boolean verificarLetra (char letra){
-    letra = Character.toUpperCase(letra);
-    return palabraSecreta.indexOf(letra) >=0;
+        for (int i = 0;  i < palabraSecreta.length(); i++){
+            if (palabraSecreta.charAt(i) == letra){
+                caracteres[i] = letra;
+
+            }
+            this.palabraActual = new String (caracteres); 
+        }
+    }
+
+    @Override
+    public boolean verificarLetra (char letra){
+        letra = Character.toUpperCase(letra);
+        return palabraSecreta.indexOf(letra) >=0;
+
+    }
     
-}
-public void jugar(){}
+    @Override
+    public boolean hasGanado(){
+        return palabraActual.equals(palabraSecreta);
+    }
 
-
-
-
-
-
-
-
-
-public boolean hasGanado(){
-    return palabraActual.equals(palabraSecreta);
-}
+    @Override
+    public void jugar() {
+    }
 
 }
 
