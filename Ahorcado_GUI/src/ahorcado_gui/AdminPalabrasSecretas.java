@@ -17,6 +17,13 @@ public class AdminPalabrasSecretas {
     public AdminPalabrasSecretas(){
         this.palabras = new ArrayList<>();
         agregarPalabra("JAVA");
+        agregarPalabra("PROGRAMACION");
+        agregarPalabra("GITHUB");
+        agregarPalabra("COMPUTADORA");
+        agregarPalabra("MOUSE");
+        agregarPalabra("CARGADOR");
+        agregarPalabra("TECLADO");
+        agregarPalabra("CAMARA");
     }
     
     public void agregarPalabra(String palabra) {
@@ -24,10 +31,9 @@ public class AdminPalabrasSecretas {
 
         String limpia = palabra.trim().toUpperCase();
 
-        // Validación de integridad: no vacía y no duplicada
         if (!limpia.isEmpty() && !palabras.contains(limpia)) {
             palabras.add(limpia);
-            System.out.println("Palabra añadida: " + limpia); // Para control en consola
+            System.out.println("Palabra añadida: " + limpia);
         }
     }
     
@@ -44,8 +50,4 @@ public class AdminPalabrasSecretas {
     public int totalPalabras(){
         return palabras.size();
     }
-    
-    
-    
-    
 }

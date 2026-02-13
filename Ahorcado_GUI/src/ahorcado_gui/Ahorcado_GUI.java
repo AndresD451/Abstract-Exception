@@ -13,11 +13,9 @@ import java.awt.*;
  */
 
 public class Ahorcado_GUI extends JFrame {
-    // Lógica
     private JuegoAhorcadoBase juegoActual;
     private AdminPalabrasSecretas admin;
 
-    // Componentes Visuales
     private JLabel lblPalabra, lblIntentos, lblMensajes;
     private JTextArea txtFigura;
     private JTextField txtEntrada;
@@ -37,7 +35,6 @@ public class Ahorcado_GUI extends JFrame {
     }
 
     private void inicializarComponentes() {
-        // Panel Superior: Selección de Modo
         JPanel pnlModos = new JPanel();
         btnModoFijo = new JButton("Modo Fijo");
         btnModoAzar = new JButton("Modo Azar");
@@ -45,7 +42,6 @@ public class Ahorcado_GUI extends JFrame {
         pnlModos.add(btnModoAzar);
         add(pnlModos, BorderLayout.NORTH);
 
-        // Panel Central: Figura y Palabra
         JPanel pnlCentro = new JPanel(new GridLayout(2, 1));
         txtFigura = new JTextArea();
         txtFigura.setFont(new Font("Monospaced", Font.PLAIN, 15));
@@ -56,10 +52,8 @@ public class Ahorcado_GUI extends JFrame {
         pnlCentro.add(lblPalabra);
         add(pnlCentro, BorderLayout.CENTER);
 
-        // Panel Inferior: Entrada de texto y Mensajes
-        JPanel pnlInferior = new JPanel(new GridLayout(3, 1));
+        JPanel pnlInferior = new JPanel(new GridLayout(2, 1));
         lblIntentos = new JLabel("Intentos restantes: 6");
-        lblMensajes = new JLabel("Seleccione un modo para empezar");
         JButton btnAgregarPalabra = new JButton("Añadir Palabra al Diccionario");
         
         JPanel pnlInput = new JPanel();
@@ -72,12 +66,10 @@ public class Ahorcado_GUI extends JFrame {
 
         pnlInferior.add(lblIntentos);
         pnlInferior.add(pnlInput);
-        pnlInferior.add(lblMensajes);
         pnlInferior.add(btnAgregarPalabra);
         
         add(pnlInferior, BorderLayout.SOUTH);
 
-        // --- Eventos ---
         btnModoFijo.addActionListener(e -> iniciarFijo());
         btnModoAzar.addActionListener(e -> iniciarAzar());
         btnAdivinar.addActionListener(e -> procesarLetra());
@@ -86,18 +78,13 @@ public class Ahorcado_GUI extends JFrame {
 
     private void agregarPalabra(){
         try {
-                // 1. Pedir la palabra al usuario con un Pop-up de entrada
                 String nuevaPalabra = JOptionPane.showInputDialog(this, 
                         "Escriba la nueva palabra secreta:", 
                         "Configuración de Diccionario", 
                         JOptionPane.QUESTION_MESSAGE);
 
-                // 2. Validar que el usuario no haya dado a "Cancelar"
                 if (nuevaPalabra != null && !nuevaPalabra.trim().isEmpty()) {
-
-                    // 3. Llamar al admin para agregarla al ArrayList
                     admin.agregarPalabra(nuevaPalabra);
-
                     JOptionPane.showMessageDialog(this, "¡Palabra agregada con éxito!");
                 }
             } catch (Exception ex) {
@@ -122,40 +109,33 @@ public class Ahorcado_GUI extends JFrame {
 
     private void procesarLetra() {
         try {
-            // Validación inicial: Si no hay juego seleccionado
             if (juegoActual == null) {
                 throw new Exception("Primero debes seleccionar un modo de juego.");
             }
 
             String input = txtEntrada.getText().trim().toUpperCase();
 
-            // Validación: Si el campo está vacío
             if (input.isEmpty()) {
                 throw new Exception("Por favor, ingresa una letra.");
             }
 
             char letra = input.charAt(0);
 
-            // 1. Lanzamos nuestra propia excepción si la letra ya existe
             if (juegoActual.esLetraRepetida(letra)) {
                 throw new LetraRepetidaException("¡Cuidado! Ya intentaste con la letra " + letra);
             }
 
-            // 2. Si pasa las validaciones, procesamos
             juegoActual.procesarEntrada(letra);
             actualizarPantalla();
             verificarEstado();
 
         } catch (LetraRepetidaException e) {
-            // Atrapa específicamente el error de letra duplicada
             JOptionPane.showMessageDialog(this, e.getMessage(), "Letra Repetida", JOptionPane.WARNING_MESSAGE);
 
         } catch (Exception e) {
-            // Atrapa cualquier otro error (como el de juego no iniciado o campo vacío)
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error de entrada", JOptionPane.ERROR_MESSAGE);
 
         } finally {
-            // Este bloque siempre se ejecuta: limpia el campo para el siguiente intento
             txtEntrada.setText("");
             txtEntrada.requestFocus(); 
         }
