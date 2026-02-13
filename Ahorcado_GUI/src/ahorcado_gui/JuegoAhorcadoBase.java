@@ -22,8 +22,16 @@ public abstract class JuegoAhorcadoBase implements JuegoAhorcado {
     public JuegoAhorcadoBase(){
         this.letrasUsadas = new ArrayList<>();
         this.figuraAhorcado = new ArrayList<>();
-        this.intentos = limiteIntentos;
-        
+        this.intentos = 0;
+        preperarFiguras();
+    }
+    
+    protected void iniciarGuiones(){
+        StringBuilder sb = new StringBuilder();
+        for (int contador=0; contador<palabraSecreta.length(); contador++){
+            sb.append("_");
+        }
+        this.palabraActual = sb.toString();
     }
     
     public abstract void actualizarPalabraActual(char letra);
@@ -38,6 +46,23 @@ public abstract class JuegoAhorcadoBase implements JuegoAhorcado {
         figuraAhorcado.add("  +---+\n  |   |\n  O   |\n /|\\  |\n      |\n      |\n========="); // 4 errores (brazo der)
         figuraAhorcado.add("  +---+\n  |   |\n  O   |\n /|\\  |\n /    |\n      |\n========="); // 5 errores (pierna izq)
         figuraAhorcado.add("  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n========="); // 6 errores (pierna der)
+    }
+    
+    public void procesarEntrada(char letra){
+        letra = Character.toUpperCase(letra);
+        
+        if (letrasUsadas.contains(letra)){
+            System.err.println("Ya intentaste con la letra '" + letra + "'. Intente con otra letra.");
+            return;
+        }
+        
+        letrasUsadas.add(letra);
+        
+        if (verificarLetra(letra)){
+            actualizarPalabraActual(letra);
+        }else{
+            intentos++;
+        }
     }
     
     protected boolean esLetraRpetida(char letra){
